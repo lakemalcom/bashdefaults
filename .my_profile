@@ -3,6 +3,9 @@ EDITOR=vim
 export EDITOR VISUAL
 export HISTSIZE=50000
 
+export CLICOLOR=1
+export LSCOLORS=ExFxCxDxBxegedabagacad
+
 alias la='ls -la'
 alias l='ls -l'
 
