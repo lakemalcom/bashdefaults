@@ -1,0 +1,52 @@
+VISUAL=vim
+EDITOR=vim
+export EDITOR VISUAL
+export HISTSIZE=50000
+
+alias la='ls -la'
+alias l='ls -l'
+
+set -o vi
+
+function start_agent {
+     echo "Initialising new SSH agent..."
+     /usr/bin/ssh-agent | sed 's/^echo/#echo/' > "${SSH_ENV}"
+     echo succeeded
+     chmod 600 "${SSH_ENV}"
+     . "${SSH_ENV}" > /dev/null
+     /usr/bin/ssh-add;
+}
+
+# Source SSH settings, if applicable
+
+if [ -f "${SSH_ENV}" ]; then
+     . "${SSH_ENV}" > /dev/null
+     #ps ${SSH_AGENT_PID} doesn't work under cywgin
+     ps -ef | grep ${SSH_AGENT_PID} | grep ssh-agent$ > /dev/null || {
+         start_agent;
+     }
+else
+     start_agent;
+fi 
+
+# Beanshell
+function beanshell {
+        java bsh.Interpreter
+}
+
+alias ectags=ctags
+
+SSH_COMPLETE=( $(cat ~/.ssh/known_hosts | \
+                 cut -f 1 -d ' ' | \
+                 sed -e s/,.*//g | \
+                 uniq \
+                 # | egrep -v [0123456789]
+                 ) )
+complete -o default -W "${SSH_COMPLETE[*]}" ssh
+
+if [ -f /opt/local/etc/bash_completion ]; then
+    . /opt/local/etc/bash_completion
+fi
+
+GIT_PS1_SHOWDIRTYSTATE=true
+PS1='\h:\W$(__git_ps1 " (%s)") \u$ '
