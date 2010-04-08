@@ -1,6 +1,5 @@
-VISUAL=vim
-EDITOR=vim
-export EDITOR VISUAL
+export VISUAL=vi
+export EDITOR=vi
 export HISTSIZE=50000
 
 export CLICOLOR=1
@@ -20,6 +19,8 @@ function start_agent {
      chmod 600 "${SSH_ENV}"
      . "${SSH_ENV}" > /dev/null
      /usr/bin/ssh-add;
+     /usr/bin/ssh-add ${HOME}/.ssh/id_rsa.github
+     /usr/bin/ssh-add ${HOME}/.ssh/ida_dsa.sacpress
 }
 
 # Source SSH settings, if applicable
@@ -54,4 +55,11 @@ if [ -f /opt/local/etc/bash_completion ]; then
 fi
 
 GIT_PS1_SHOWDIRTYSTATE=true
+#PS1='\033[1m\h\033[0m:\W$(__git_ps1 " (%s)") \u$ '
 PS1='\h:\W$(__git_ps1 " (%s)") \u$ '
+
+MAVEN_OPTS="-Xmx1024m -Xms512m"
+export MAVEN_OPTS
+export TMP=/tmp/
+export JAVA_HOME=`/usr/libexec/java_home`
+export JRE_HOME=`/usr/libexec/java_home`
