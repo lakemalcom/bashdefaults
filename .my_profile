@@ -20,7 +20,7 @@ function start_agent {
      . "${SSH_ENV}" > /dev/null
      /usr/bin/ssh-add;
      /usr/bin/ssh-add ${HOME}/.ssh/id_rsa.github
-     /usr/bin/ssh-add ${HOME}/.ssh/ida_dsa.sacpress
+     /usr/bin/ssh-add ${HOME}/.ssh/id_dsa.sacpress
 }
 
 # Source SSH settings, if applicable
@@ -58,8 +58,13 @@ GIT_PS1_SHOWDIRTYSTATE=true
 #PS1='\033[1m\h\033[0m:\W$(__git_ps1 " (%s)") \u$ '
 PS1='\h:\W$(__git_ps1 " (%s)") \u$ '
 
-MAVEN_OPTS="-Xmx1024m -Xms512m"
+MAVEN_OPTS="-Xmx1024m -Xms512m -Dansi.color -Xdebug -Xrunjdwp:transport=dt_socket,address=1045,server=y,suspend=n" 
 export MAVEN_OPTS
 export TMP=/tmp/
 export JAVA_HOME=`/usr/libexec/java_home`
 export JRE_HOME=`/usr/libexec/java_home`
+
+
+function pomgrep {
+    find . -name pom.xml | xargs grep $1
+}

@@ -1,0 +1,158 @@
+colorscheme default
+syntax on
+set expandtab
+set tabstop=4
+set nocompatible
+set autoindent
+set smartindent
+set pastetoggle=<F2>
+set autowriteall
+set vb
+set directory=/tmp
+set hlsearch
+set scrolloff=5 " Keep 5 lines below and above the cursor
+
+
+filetype plugin on
+filetype indent on
+
+set ts=4
+set sw=4
+"call pathogen#runtime_append_all_bundles()
+map <C-t> :FufFile<CR>
+
+
+"-----------------------------------------------------------------------------
+"" SnipMate Settings
+"-----------------------------------------------------------------------------
+"source ~/.vim/snippets/support_functions.vim
+"let g:snips_author = 'Luke McCollum'
+
+"-----------------------------------------------------------------------------
+"" FuzzyFinder Settings
+"-----------------------------------------------------------------------------
+nmap ,fb :FufBuffer<CR>
+nmap ,ff :FufFile<CR>
+nmap ,ft :FufTag<CR>
+
+"-----------------------------------------------------------------------------
+" Fix constant spelling mistakes
+"-----------------------------------------------------------------------------
+
+iab teh       the
+iab Teh       The
+iab taht      that
+iab Taht      That
+iab alos      also
+iab Alos      Also
+iab aslo      also
+iab Aslo      Also
+iab becuase   because
+iab Becuase   Because
+iab bianry    binary
+iab Bianry    Binary
+iab bianries  binaries
+iab Bianries  Binaries
+iab charcter  character
+iab Charcter  Character
+iab charcters characters
+iab Charcters Characters
+iab exmaple   example
+iab Exmaple   Example
+iab exmaples  examples
+iab Exmaples  Examples
+iab shoudl    should
+iab Shoudl    Should
+iab seperate  separate
+iab Seperate  Separate
+iab fone      phone
+iab Fone      Phone
+
+"-----------------------------------------------------------------------------
+" NERD Tree Plugin Settings
+"-----------------------------------------------------------------------------
+" Toggle the NERD Tree on an off with F7
+nmap <F7> :NERDTreeToggle<CR>
+
+" Close the NERD Tree with Shift-F7
+nmap <S-F7> :NERDTreeClose<CR>
+
+" Store the bookmarks file in perforce
+let NERDTreeBookmarksFile="~/.vim/NERDTreeBookmarks"
+
+" Show the bookmarks table on startup
+let NERDTreeShowBookmarks=1
+
+" Don't display these kinds of files
+let NERDTreeIgnore=[ '\.ncb$', '\.suo$', '\.vcproj\.RIMNET', '\.obj$',
+            \ '\.ilk$', '^BuildLog.htm$', '\.pdb$', '\.idb$',
+            \ '\.embed\.manifest$', '\.embed\.manifest.res$',
+            \ '\.intermediate\.manifest$', '^mt.dep$', '\.class$' ]
+
+" Smart way to move btw. windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Use the arrows to something usefull
+map <right> :bn<cr>
+map <left> :bp<cr>
+
+"Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+""""""""""""""""""""""""""""""
+" => Vim grep
+""""""""""""""""""""""""""""""
+let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
+set grepprg=/bin/grep\ -nH
+
+
+""""""""""""""""""""""""""""""
+" => Visual mode related
+""""""""""""""""""""""""""""""
+" Really useful!
+"  In visual mode when you press * or # to search for the current selection
+vnoremap <silent> * :call VisualSearch('f')<CR>
+vnoremap <silent> # :call VisualSearch('b')<CR>
+
+" When you press gv you vimgrep after the selected text
+vnoremap <silent> gv :call VisualSearch('gv')<CR>
+map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
+
+
+map <F4> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
+
+" From an idea by Michael Naumann
+function! VisualSearch(direction) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+"""""""""""""""""""""""""""""""
+" => Vimclojure
+"""""""""""""""""""""""""""""""
+"let vimclojure#NailgunClient = "/Users/luke_mccollum/vimclojure-2.1.2/ngclient/ng"
+"let clj_want_gorilla = 1
+"let g:clj_highlight_builtins=1      " Highlight Clojure's builtins
+"let g:clj_paren_rainbow=1           " Rainbow parentheses'!
+
+
