@@ -1,4 +1,3 @@
-colorscheme default
 syntax on
 set expandtab
 set tabstop=4
@@ -11,7 +10,10 @@ set vb
 set directory=/tmp
 set hlsearch
 set scrolloff=5 " Keep 5 lines below and above the cursor
+set backspace=indent,eol,start
+set cmdheight=2
 
+colorscheme ir_black
 
 filetype plugin on
 filetype indent on
@@ -21,6 +23,13 @@ set sw=4
 "call pathogen#runtime_append_all_bundles()
 map <C-t> :FufFile<CR>
 
+
+" vmap <C-c><C-c> "ry :call Send_to_Screen(@r)<CR>
+vmap <C-c><C-c> "ry :call chimp#SendToCurrent(@r)<CR>
+nmap <C-c><C-c> vip<C-c><C-c>
+nmap <C-c>v :call chimp#ResetChimp()<CR>
+
+let maplocalleader = ","
 
 "-----------------------------------------------------------------------------
 "" SnipMate Settings
@@ -72,7 +81,7 @@ iab Fone      Phone
 " NERD Tree Plugin Settings
 "-----------------------------------------------------------------------------
 " Toggle the NERD Tree on an off with F7
-nmap <F7> :NERDTreeToggle<CR>
+nmap <F7> :NERDTreeTabsToggle<CR>
 
 " Close the NERD Tree with Shift-F7
 nmap <S-F7> :NERDTreeClose<CR>
@@ -99,6 +108,12 @@ map <C-l> <C-W>l
 map <right> :bn<cr>
 map <left> :bp<cr>
 
+" Fast exiting
+map XX :qa!<cr>
+
+" Delete a character in insert mode:
+imap  [3~
+
 "Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
@@ -122,7 +137,7 @@ vnoremap <silent> # :call VisualSearch('b')<CR>
 
 " When you press gv you vimgrep after the selected text
 vnoremap <silent> gv :call VisualSearch('gv')<CR>
-map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
+map <leader>g :vimgrep // **/*<left><left><left><left><left><left>
 
 
 map <F4> :execute "vimgrep /" . expand("<cword>") . "/j **" <Bar> cw<CR>
@@ -155,4 +170,25 @@ endfunction
 "let g:clj_highlight_builtins=1      " Highlight Clojure's builtins
 "let g:clj_paren_rainbow=1           " Rainbow parentheses'!
 
+" Here's the vimclojure stuff. You'll need to adjust the NailgunClient
+" setting if you're on windows or have other problems.
+let vimclojure#FuzzyIndent=1
+let vimclojure#HighlightBuiltins=1
+let vimclojure#HighlightContrib=1
+let vimclojure#DynamicHighlighting=1
+let vimclojure#ParenRainbow=1
+let vimclojure#WantNailgun = 1
+let vimclojure#NailgunClient = $HOME . "/.vim/lib/vimclojure-nailgun-client/ng"
+let vimclojure#SplitPos = "bottom"
 
+function! ToggleVerbose()
+    if !&verbose
+        set verbosefile=~/.log/vim/verbose.log
+        set verbose=15
+    else
+        set verbose=0
+        set verbosefile=
+    endif
+endfunction
+
+au BufRead,BufNewFile *.as set filetype=actionscript
