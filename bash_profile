@@ -53,5 +53,5 @@ export JRE_HOME=`/usr/libexec/java_home`
 
 
 function pomgrep {
-    find . -name pom.xml | xargs grep -e$1
+    find . -name pom.xml | xargs grep $@
 }

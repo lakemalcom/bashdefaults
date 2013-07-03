@@ -17,6 +17,8 @@ colorscheme ir_black
 
 filetype plugin on
 filetype indent on
+hi CursorLine guibg=#222222 cterm=NONE ctermbg=darkgrey
+nnoremap <F3> :set cursorline!<CR>
 
 set ts=4
 set sw=4
@@ -192,3 +194,13 @@ function! ToggleVerbose()
 endfunction
 
 au BufRead,BufNewFile *.as set filetype=actionscript
+
+" DBExt stuff
+let g:dbext_default_profile_mysql_local_DBI_aac = 'type=DBI:user=root:passwd=:driver=mysql:conn_parms=database=aac;host=localhost'
+let g:dbext_default_profile_mysql_local_DBI_aac2 = 'type=DBI:user=root:passwd=:driver=mysql:conn_parms=database=aac2;host=localhost'
+let g:dbext_default_DBI_max_rows=0
+
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
