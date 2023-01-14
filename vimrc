@@ -100,6 +100,11 @@ let NERDTreeIgnore=[ '\.ncb$', '\.suo$', '\.vcproj\.RIMNET', '\.obj$',
             \ '\.embed\.manifest$', '\.embed\.manifest.res$',
             \ '\.intermediate\.manifest$', '^mt.dep$', '\.class$' ]
 
+
+" Tagbar toggle
+nmap <F8> :TagbarToggle<CR>
+
+
 " Smart way to move btw. windows
 map <C-j> <C-W>j
 map <C-k> <C-W>k
@@ -127,6 +132,19 @@ vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 """"""""""""""""""""""""""""""
 let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
 set grepprg=/bin/grep\ -nH
+
+" The Silver Searcher
+if executable('ag')
+   " Use ag over grep
+     set grepprg=ag\ --nogroup\ --nocolor
+
+     " Use ag in CtrlP for listing files. Lightning fast and respects
+     " .gitignore
+     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+     " ag is fast enough that CtrlP doesn't need to cache
+     let g:ctrlp_use_caching = 0
+endif
 
 
 """"""""""""""""""""""""""""""
@@ -204,3 +222,18 @@ au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
+
+let g:EclimCompletionMethod = 'omnifunc'
+
+let g:ycm_semantic_triggers =  {
+  \   'c' : ['->', '.'],
+  \   'objc' : ['->', '.'],
+  \   'ocaml' : ['.', '#'],
+  \   'cpp,objcpp' : ['->', '.', '::'],
+  \   'perl' : ['->'],
+  \   'php' : ['->', '::'],
+  \   'cs,java,javascript,d,vim,python,perl6,scala,vb,elixir,go' : ['.'],
+  \   'ruby' : ['.', '::'],
+  \   'lua' : ['.', ':'],
+  \   'erlang' : [':'],
+  \ }
